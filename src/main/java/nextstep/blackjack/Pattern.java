@@ -20,6 +20,7 @@ public enum Pattern {
     public static Pattern random() {
         List<Pattern> collect = Arrays.stream(Pattern.values())
                 .collect(Collectors.toList());
+
         Collections.shuffle(collect);
 
         return collect.get(0);

@@ -1,6 +1,5 @@
 package nextstep.blackjack;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -19,34 +18,40 @@ public class InputTest {
 
     @Test
     void 참가자_추가() {
-        List<Player> playerList = inputView.input("pobi,jason");
-        assertThat(playerList).contains(new Player("pobi"), new Player("jason"));
+        List<Participant> participantList = inputView.input("pobi,jason");
+        assertThat(participantList).contains(new Participant("pobi"), new Participant("jason"));
     }
 
     @Test
     void 카드_분배() {
-        List<Player> playerList = inputView.input("pobi,jason");
-        inputView.distributeTwoCards(playerList);
+        List<Participant> participantList = inputView.input("pobi,jason");
+        Dealer dealer = new Dealer();
+        inputView.distributeTwoCards(participantList, dealer);
 
-        assertThat(playerList.get(0).getCardList().size()).isEqualTo(2);
+        assertThat(participantList.get(0).getCardList().size()).isEqualTo(2);
     }
 
     @Test
     void result() {
 
-        Player player1 = new Player("pobi");
-        Player player2 = new Player("jason");
+        Participant participant1 = new Participant("pobi");
+        Participant participant2 = new Participant("jason");
 
-        player1.setBetAmount(10000);
-        player2.setBetAmount(30000);
+        participant1.setAmount(10000);
+        participant2.setAmount(30000);
 
-        player1.receiveCard(Arrays.asList(new Card(2, Pattern.hearts), new Card(7, Pattern.spades), new Card(11, Pattern.clubs)));
-        player2.receiveCard(Arrays.asList(new Card(7, Pattern.clubs), new Card(10, Pattern.spades), new Card(4, Pattern.spades)));
+        participant1.receiveCard(Arrays.asList(new Card(2, Pattern.hearts), new Card(7, Pattern.spades), new Card(11, Pattern.clubs)));
+        participant2.receiveCard(Arrays.asList(new Card(7, Pattern.clubs), new Card(10, Pattern.spades), new Card(4, Pattern.spades)));
 
         Dealer dealer = new Dealer();
         dealer.receiveCard(Arrays.asList(new Card(3, Pattern.diamonds), new Card(9, Pattern.clubs), new Card(8, Pattern.diamonds)));
 
-        BlackJackGame blackJackGame = new BlackJackGame(dealer, Arrays.asList(player1, player2));
+        BlackJackGame blackJackGame = new BlackJackGame(dealer, Arrays.asList(participant1, participant2));
         blackJackGame.result();
+    }
+
+    @Test
+    void validate_null() {
+        assertThatThrownBy(() -> inputView.input(null)).isInstanceOf(IllegalArgumentException.class);
     }
 }

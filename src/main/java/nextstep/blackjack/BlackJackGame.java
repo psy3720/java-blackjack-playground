@@ -1,78 +1,79 @@
 package nextstep.blackjack;
 
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
 public class BlackJackGame {
     private Dealer dealer;
-    private List<Player> playerList;
+    private List<Participant> participantList;
     private InputView inputView;
 
     public BlackJackGame() {
-    }
-
-    public BlackJackGame(Dealer dealer, List<Player> playerList) {
-        this.dealer = dealer;
-        this.playerList = playerList;
-    }
-
-    public void init(List<Player> playerList) {
         this.dealer = new Dealer();
-        this.playerList = playerList;
         inputView = new InputView();
+    }
 
-        inputView.distributeTwoCards(playerList);
-        inputView.addCard(playerList);
+    // test
+    public BlackJackGame(Dealer dealer, List<Participant> participantList) {
+        this.dealer = dealer;
+        this.participantList = participantList;
+    }
+
+    public void setGame(List<Participant> participantList) {
+        this.participantList = participantList;
+    }
+
+    public void init() {
+        this.distributeTwoCards();
         this.checkDealer();
-        inputView.result(dealer, playerList);
+        this.result();
+    }
+
+    private void distributeTwoCards() {
+        participantList.stream()
+                .forEach(player -> {
+                    player.receiveCard(Arrays.asList(CardFactory.createCard(), CardFactory.createCard()));
+                    System.out.println(player.hasCardString());
+                });
+
+        dealer.receiveCard(Arrays.asList(CardFactory.createCard(), CardFactory.createCard()));
+
+        inputView.distributeTwoCards(participantList, dealer);
+        inputView.addCard(participantList);
     }
 
     private void checkDealer() {
-        while(dealer.calculateCardSum() <= 16) {
+        if(dealer.calculateCardSum() <= 16) {
             dealer.receiveCard(CardFactory.createCard());
             System.out.println("딜러는 16이하라 한장의 카드를 더 받았습니다.");
         }
     }
 
     public void result() {
-        int totalBetAmount = 0;
+        inputView.result(dealer, participantList);
 
-        for (Player player : playerList) {
-            totalBetAmount += player.betAmount;
-        }
-
-        /* 딜러가 21을 초과하는 경우 0 */
         if(dealer.calculateCardSum() > 21) {
             return;
         }
 
-        Player winner = playerList.stream()
+        int totalBetAmount = 0;
+        Participant winner = participantList.stream()
                 .filter(player1 -> player1.calculateCardSum() <= 21)
-                .max(Comparator.comparing(Player::calculateCardSum))
+                .max(Comparator.comparing(Participant::calculateCardSum))
                 .get();
 
-
-        for (Player player1 : playerList) {
-            if(!winner.equals(player1)) {
-//                totalBetAmount += player1.betAmount;
-                player1.setBetAmount(player1.getBetAmount() * -1);
+        for (Participant participant1 : participantList) {
+            if(!winner.equals(participant1)) {
+                totalBetAmount += participant1.getAmount();
+                participant1.setAmount(participant1.getAmount() * -1);
             }
         }
 
-        int betAmount = winner.getBetAmount();
-
-        if(winner.isBlackJack()) {
-            if(!dealer.isBlackJack()) {
-                winner.setBetAmount(betAmount);
-            }
-        }
+        int betAmount = winner.getAmount();
         totalBetAmount -= betAmount;
         dealer.amount = totalBetAmount;
 
-        System.out.println("dealer = " + dealer.amount);
-        for (Player player1 : playerList) {
-            System.out.println("player = " + player1.name + "," + player1.betAmount);
-        }
+        inputView.resultAmount(participantList, dealer);
     }
-
 }
