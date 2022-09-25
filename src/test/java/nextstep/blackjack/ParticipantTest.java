@@ -24,7 +24,7 @@ public class ParticipantTest {
     @Test
     void 카드를_받아보자() {
         Participant pobi = new Participant("pobi");
-        Card card = new Card(2, Pattern.diamonds);
+        Card card = new Card(Number.TWO, Pattern.diamonds);
         pobi.receiveCard(card);
         assertThat(pobi.hasCard(card)).isTrue();
     }
@@ -32,7 +32,7 @@ public class ParticipantTest {
     @Test
     void 결과_계산() {
         Participant pobi = new Participant("pobi");
-        pobi.receiveCard(Arrays.asList(new Card(2, Pattern.diamonds), new Card(3, Pattern.clubs)));
+        pobi.receiveCard(Arrays.asList(new Card(Number.TWO, Pattern.diamonds), new Card(Number.THREE, Pattern.clubs)));
 
         assertThat(pobi.calculateCardSum()).isEqualTo(5);
     }

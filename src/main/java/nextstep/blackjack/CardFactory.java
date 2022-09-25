@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class CardFactory {
     private static Card create() {
-        return new Card(new Random().nextInt(11)+1, Pattern.random());
+        return new Card(Number.random(), Pattern.random());
     }
 
     public static Card createCard() {

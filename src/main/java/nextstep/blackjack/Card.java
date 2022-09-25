@@ -3,10 +3,11 @@ package nextstep.blackjack;
 import java.util.Objects;
 
 public class Card {
-    final int number;
+//    final int number;
+    final Number number;
     final Pattern pattern;
 
-    public Card(int number, Pattern pattern) {
+    public Card(Number number, Pattern pattern) {
         this.number = number;
         this.pattern = pattern;
     }

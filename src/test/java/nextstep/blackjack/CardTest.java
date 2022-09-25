@@ -9,8 +9,8 @@ import static org.assertj.core.api.Assertions.*;
 public class CardTest {
     @Test
     void card_생성() {
-        Card card = new Card(2, Pattern.hearts);
-        assertThat(card).isEqualTo(new Card(2, Pattern.hearts));
+        Card card = new Card(Number.TWO, Pattern.hearts);
+        assertThat(card).isEqualTo(new Card(Number.TWO, Pattern.hearts));
         // diamonds (♢), clubs (♧), hearts (♥) and spades (♤).
     }
 }

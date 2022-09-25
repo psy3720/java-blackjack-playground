@@ -46,7 +46,7 @@ public class AbstractPlayer implements Player{
     @Override
     public int calculateCardSum() {
         return cardList.stream()
-                .mapToInt(card -> card.number)
+                .mapToInt(card -> card.number.number)
                 .sum();
     }
 
