@@ -3,22 +3,16 @@ package nextstep.blackjack;
 import java.util.Objects;
 
 public class Card {
-    private int denomination;
-    private String suit;
+    private Denomination denomination;
+    private Suit suit;
 
-    public Card(int denomination, String suit) {
-        validate(denomination, suit);
-
+    public Card(Denomination denomination, Suit suit) {
         this.denomination = denomination;
         this.suit = suit;
     }
 
-    private void validate(int denomination, String suit) {
-        if(denomination < 1 || denomination > 11) {
-            throw new IllegalArgumentException();
-        }
-
-
+    public Denomination getDenomination() {
+        return denomination;
     }
 
     @Override
@@ -32,5 +26,14 @@ public class Card {
     @Override
     public int hashCode() {
         return Objects.hash(denomination, suit);
+    }
+
+    @Override
+    public String toString() {
+        if(denomination.isAce() || denomination.number == 10) {
+            return denomination.getName() + suit.getName();
+        }
+
+        return denomination.number + suit.getName();
     }
 }

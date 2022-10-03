@@ -9,12 +9,7 @@ public class CardTest {
 
     @Test
     void 카드생성() {
-        Card card = new Card(1, "hearts");
-        assertThat(card).isEqualTo(new Card(1, "hearts"));
-    }
-
-    @Test
-    void 올바르지않은_카드생성() {
-        assertThatThrownBy(() -> new Card(12, "asdf")).isInstanceOf(IllegalArgumentException.class);
+        Card card = new Card(Denomination.ACE, Suit.HEARTS);
+        assertThat(card).isEqualTo(new Card(Denomination.ACE, Suit.HEARTS));
     }
 }

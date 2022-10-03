@@ -14,17 +14,32 @@ public class CardsTest {
 
     @BeforeEach
     void beforeEach() {
-      cards = new Cards(Arrays.asList(new Card(2, "hearts")));
+      cards = new Cards(Arrays.asList(new Card(Denomination.TWO, Suit.HEARTS)));
     }
 
     @Test
     void 카드묶음생성() {
-        assertThat(cards).isEqualTo(new Cards(Arrays.asList(new Card(2, "hearts"))));
+        assertThat(cards).isEqualTo(new Cards(Arrays.asList(new Card(Denomination.TWO, Suit.HEARTS))));
     }
 
     @Test
     void 카드포함하고있는지여부() {
-        boolean isContain = cards.contains(new Card(2, "hearts"));
+        boolean isContain = cards.contains(new Card(Denomination.TWO, Suit.HEARTS));
         assertThat(isContain).isTrue();
+    }
+
+    @Test
+    void 게임카드_생성() {
+        PlayingCard playingCard = new PlayingCard();
+        Cards cards1 = playingCard.getCards();
+        assertThat(cards1.size()).isEqualTo(48);
+    }
+
+    @Test
+    void 랜덤카드뽑기() {
+        PlayingCard playingCard = new PlayingCard();
+        Card randomCard = playingCard.draw();
+        System.out.println("randomCard = " + randomCard.toString());
+        assertThat(playingCard.getCards().size()).isEqualTo(47);
     }
 }
