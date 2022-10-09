@@ -29,13 +29,14 @@ public class Cards {
 
     public int totalNumber() {
         int result = 0;
-        boolean isAce = cards.stream().allMatch(card -> card.getDenomination().isAce());
+
+        // 에이스 존재 여부
+        boolean isAce = cards.stream().anyMatch(card -> card.getDenomination().isAce());
 
         int aceExceptSum = cards.stream()
                 .filter(card -> !card.getDenomination().isAce())
                 .mapToInt(card -> card.getDenomination().number)
                 .sum();
-
         if(isAce) {
             if(aceExceptSum <= 10) {
                 result += 11;

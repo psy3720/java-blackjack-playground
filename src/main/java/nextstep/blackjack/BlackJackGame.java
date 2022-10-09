@@ -1,5 +1,6 @@
 package nextstep.blackjack;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class BlackJackGame {
@@ -28,28 +29,35 @@ public class BlackJackGame {
     private void result() {
         resultView.resultCard(dealer, gamerList);
         calculateAmount();
-        resultView.resultAmount();
+        resultView.resultAmount(dealer, gamerList);
     }
 
     private void calculateAmount() {
-
+        for (int i = 0; i < gamerList.size(); i++) {
+            Gamer gamer = gamerList.get(i);
+            if (dealer.calcuateCardNumberTotal() < gamer.calcuateCardNumberTotal() && gamer.calcuateCardNumberTotal() <= 21) {
+                continue;
+            }
+            dealer.addAmount(gamer.getAmount());
+            gamer.lose();
+        }
     }
 
     private void dealerDistributeCard() {
-        if(dealer.calcuateCardNumberTotal() <= 16) {
+        if (dealer.calcuateCardNumberTotal() <= 16) {
             dealer.receiveCard(playingCard.draw());
             System.out.println("딜러는 16이하라 한장의 카드를 더 받았습니다.");
         }
     }
 
     private void reDistributeCard() {
-        for(int i=0; i< gamerList.size(); i++) {
+        for (int i = 0; i < gamerList.size(); i++) {
             cardDraw(gamerList.get(i));
         }
     }
 
     private void cardDraw(Gamer gamer) {
-        while(gamer.calcuateCardNumberTotal() < 22) {
+        while (gamer.calcuateCardNumberTotal() < 22) {
             String answer = inputView.reDistributeCard(gamer);
             if (answer.equals("n")) {
                 break;
@@ -60,7 +68,7 @@ public class BlackJackGame {
     }
 
     private void cardDistributeTwoCard() {
-        for(int i=0; i<gamerList.size(); i++) {
+        for (int i = 0; i < gamerList.size(); i++) {
             Gamer gamer = gamerList.get(i);
             gamer.receiveCard(playingCard.draw(2));
         }

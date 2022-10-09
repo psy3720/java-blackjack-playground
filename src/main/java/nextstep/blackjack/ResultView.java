@@ -20,7 +20,13 @@ public class ResultView {
         }
     }
 
-    public void resultAmount() {
-
+    public void resultAmount(Dealer dealer, List<Gamer> gamerList) {
+        System.out.println();
+        System.out.println("## 최종 수익");
+        System.out.println(dealer.getName() + ": " + dealer.getAmount());
+        for (int i=0; i<gamerList.size(); i++) {
+            Gamer gamer = gamerList.get(i);
+            System.out.println(gamer.getName() + ": " + gamer.getAmount());
+        }
     }
 }

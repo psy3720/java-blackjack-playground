@@ -37,8 +37,7 @@ public class inputView {
 
         for(int i=0; i< participantArr.length; i++) {
             System.out.println(participantArr[i] + "의 배팅 금액은?");
-//            int amount = sc.nextInt();
-            int amount = 0;
+            int amount = sc.nextInt();
             gamerList.add(new Gamer(participantArr[i], amount));
         }
 

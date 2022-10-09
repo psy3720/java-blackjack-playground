@@ -37,6 +37,6 @@ public class GamerTest {
     void 보유하고있는_카드숫자의_합() {
         gamer.receiveCard(Arrays.asList(new Card(Denomination.ACE, Suit.HEARTS), new Card(Denomination.TWO, Suit.CLUBS)));
         int total = gamer.calcuateCardNumberTotal();
-        assertThat(total).isEqualTo(3);
+        assertThat(total).isEqualTo(13);
     }
 }
